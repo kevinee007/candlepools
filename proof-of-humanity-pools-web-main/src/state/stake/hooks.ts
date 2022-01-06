@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WETH, Pair } from '@uniswap/sdk'
 import { useMemo } from 'react'
-import { UNI, CNDL, DAI } from '../../constants'
+import { UNI, CNDL, USDC } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
@@ -27,8 +27,8 @@ export const STAKING_REWARDS_INFO: {
   ],
   [ChainId.MAINNET]: [
     {
-      tokens: [CNDL[ChainId.MAINNET], DAI[ChainId.MAINNET]],
-      stakingRewardAddress: '0xf9ae19cf447b3560afc407d9aac9e2007d4efe43'
+      tokens: [CNDL[ChainId.MAINNET], USDC[ChainId.MAINNET]],
+      stakingRewardAddress: '0xE4A1DA65E688016C792f44B12A3bAF0D5a02AA86'
     },
     {
       tokens: [CNDL[ChainId.MAINNET], WETH[ChainId.MAINNET]],
