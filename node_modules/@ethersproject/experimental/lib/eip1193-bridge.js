@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -52,6 +54,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Eip1193Bridge = void 0;
 var events_1 = __importDefault(require("events"));
 var ethers_1 = require("ethers");
 var _version_1 = require("./_version");
@@ -65,18 +68,21 @@ function getBlockTag(tag) {
     return ethers.utils.hexValue(tag)
 }
 */
-var _Eip1193Bridge = /** @class */ (function (_super) {
-    __extends(_Eip1193Bridge, _super);
-    function _Eip1193Bridge(signer, provider) {
+var Eip1193Bridge = /** @class */ (function (_super) {
+    __extends(Eip1193Bridge, _super);
+    function Eip1193Bridge(signer, provider) {
         var _this = _super.call(this) || this;
         ethers_1.ethers.utils.defineReadOnly(_this, "signer", signer);
         ethers_1.ethers.utils.defineReadOnly(_this, "provider", provider || null);
         return _this;
     }
-    _Eip1193Bridge.prototype.send = function (method, params) {
+    Eip1193Bridge.prototype.request = function (request) {
+        return this.send(request.method, request.params || []);
+    };
+    Eip1193Bridge.prototype.send = function (method, params) {
         return __awaiter(this, void 0, void 0, function () {
             function throwUnsupported(message) {
-                return logger.throwError("eth_sign requires a signer", ethers_1.ethers.utils.Logger.errors.UNSUPPORTED_OPERATION, {
+                return logger.throwError(message, ethers_1.ethers.utils.Logger.errors.UNSUPPORTED_OPERATION, {
                     method: method,
                     params: params
                 });
@@ -200,7 +206,7 @@ var _Eip1193Bridge = /** @class */ (function (_super) {
                         return [2 /*return*/, this.signer.signMessage(ethers_1.ethers.utils.arrayify(params[1]))];
                     case 35:
                         if (!this.signer) {
-                            return [2 /*return*/, throwUnsupported("eth_sign requires an account")];
+                            return [2 /*return*/, throwUnsupported("eth_sendTransaction requires an account")];
                         }
                         req = ethers_1.ethers.providers.JsonRpcProvider.hexlifyTransaction(params[0]);
                         return [4 /*yield*/, this.signer.sendTransaction(req)];
@@ -225,7 +231,7 @@ var _Eip1193Bridge = /** @class */ (function (_super) {
             });
         });
     };
-    return _Eip1193Bridge;
+    return Eip1193Bridge;
 }(events_1.default));
-exports._Eip1193Bridge = _Eip1193Bridge;
+exports.Eip1193Bridge = Eip1193Bridge;
 //# sourceMappingURL=eip1193-bridge.js.map
