@@ -29,10 +29,6 @@ export const STAKING_REWARDS_INFO: {
     {
       tokens: [CNDL[ChainId.MAINNET], USDC],
       stakingRewardAddress: '0xDE6d8C4B6ee674EB8d9c4652eE7456E70D9d24B9'
-    },
-    {
-      tokens: [CNDL[ChainId.MAINNET], WETH[ChainId.MAINNET]],
-      stakingRewardAddress: '0x81c071E795CE29EB155c9818f06786640d0AdB2b'
     }
   ]
 }
